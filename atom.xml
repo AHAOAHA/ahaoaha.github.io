@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ahaoahaz</title>
+  
+  
+  <link href="https://ahaoaha.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://ahaoaha.github.io/"/>
+  <updated>2022-06-28T12:29:45.460Z</updated>
+  <id>https://ahaoaha.github.io/</id>
+  
+  <author>
+    <name>ahaoaha</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>二十岁的男人</title>
+    <link href="https://ahaoaha.github.io/pages/94b42de5-94d4-49d0-a5f9-3a4b81a4f0ce-a-man-twenty-years-old"/>
+    <id>https://ahaoaha.github.io/pages/94b42de5-94d4-49d0-a5f9-3a4b81a4f0ce-a-man-twenty-years-old</id>
+    <published>2022-06-28T12:19:22.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">  <script id="hbeData" type="hbeData" data-hmacdigest="09fbbe1153c3557459a840cfeaed14550ee07e363e190faa203062c649c1afb1">80c77a136d80da5cc58a250a967528e45c8cebb1e12233702345849ad51541ee244afccf2d9da62d1344067755b130988673ed15a4f1a6027f4f03815d139a131e9e95eaa91be345175bb89553a21633c701b8e23a3651272ae558b843c8f226df7274ce275b846785da16128d6e88e878911575176a7f6062cbbead4dcdeffd8c655f0ba6579fbab3c4ee50613daf6b5d77114e14ceb61c84c0a95b0b7af33e2c9e853e58d8f27f17f8af7db5918515</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-default">      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-default">请输入密码.</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+    
+    
+    <summary type="html">&lt;i class=&quot;fa fa-lock&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; 加密内容，请勿偷看。</summary>
+    
+    
+    
+    
+    <category term="life" scheme="https://ahaoaha.github.io/tags/life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式</title>
+    <link href="https://ahaoaha.github.io/pages/c51d7a5d-4078-40fb-9cde-bd45ad5245dc-design-mode"/>
+    <id>https://ahaoaha.github.io/pages/c51d7a5d-4078-40fb-9cde-bd45ad5245dc-design-mode</id>
+    <published>2022-01-16T15:30:52.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>设计模式是前人总结的一套成熟的经验。</p><span id="more"></span><h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>程序中只存在一个单独的对象，单例模式的写法分为两种:</p><ul><li>懒汉模式: 在使用的时候才创建。</li><li>饿汉模式: 在程序启动时就创建。</li></ul><h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sync() __asm__ volatile (<span class="meta-string">&quot;lwsync&quot;</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Instance</span> &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">static</span> Instance* <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!_inst) &#123;</span><br><span class="line">                _mtx.<span class="built_in">Lock</span>();</span><br><span class="line">                <span class="keyword">if</span> (!_inst) &#123;</span><br><span class="line">                    Instance* t = <span class="keyword">new</span> Instance;</span><br><span class="line">                     <span class="built_in">sync</span>();</span><br><span class="line">                    _inst = t;</span><br><span class="line">                &#125;</span><br><span class="line">                _mtx.<span class="built_in">Unlock</span>();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> _inst;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="built_in">Instance</span>();</span><br><span class="line">        <span class="built_in">Instance</span>(<span class="keyword">const</span> Instance&amp;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        Instance* _inst;</span><br><span class="line">        mutex _mtx;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h4 id="double-check"><a href="#double-check" class="headerlink" title="double check"></a>double check</h4><p>两次判断的意义在于两方面:</p><ol><li>效率: 避免并发时单次判断需要重复对互斥锁的加解锁操作</li><li>安全: 获取单例对象的并发安全性</li></ol><h4 id="sync"><a href="#sync" class="headerlink" title="sync"></a>sync</h4><p>sync需要保证sync之后作用域的代码不会因为编译器的优化导致执行顺序的改变。</p><p>如果构造单例对象时使用<code>_inst = new Instance;</code>会产生并发安全问题，其内部的调用顺序为:</p><ol><li>开辟内存空间</li><li>在内存位置执行构造函数</li><li>将内存位置赋值给_inst</li></ol><p>其中，2和3的执行顺序是可以被改变的，当3先与2执行时，会产生<code>_Inst!=nullptr</code>且并未调用构造函数的现象。</p><h3 id="懒汉模式-1"><a href="#懒汉模式-1" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Instance* Instance::_inst = <span class="keyword">new</span> Instance;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Instance</span> &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">static</span> Instance* <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> _inst;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="built_in">Instance</span>();</span><br><span class="line">        <span class="built_in">Instance</span>(<span class="keyword">const</span> Instance&amp;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="keyword">static</span> Instance* _inst;</span><br><span class="line">        mutex _mtx;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;设计模式是前人总结的一套成熟的经验。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="设计模式" scheme="https://ahaoaha.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>容器内嵌套挂载</title>
+    <link href="https://ahaoaha.github.io/pages/69b7cc57-8670-479b-9f42-f15e02cd1206-docker-volume"/>
+    <id>https://ahaoaha.github.io/pages/69b7cc57-8670-479b-9f42-f15e02cd1206-docker-volume</id>
+    <published>2021-12-29T03:01:00.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>在容器中运行容器的方式：</p><ol><li>在容器中挂载宿主机的docker.sock，此举实为在使用宿主机上的docker服务，当在运行的容器中运行第二级的容器并进行位置挂载时，源位置则代指宿主机上的位置，并不能将第一级容器内的位置挂载进第二级容器。</li><li>使用带有<code>dind</code>标签的官方docker镜像，这种方法会在docker内部启动一个子服务，当运行挂载时，源位置仍为第一个docker服务的位置。</li><li>sysbox运行时环境，原理应与2相同。</li></ol><span id="more"></span><h2 id="localhost-docker-sock"><a href="#localhost-docker-sock" class="headerlink" title="localhost docker.sock"></a>localhost docker.sock</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -v /var/run/docker.sock:/var/run/docker.sock -it docker</span><br><span class="line">docker run -v /home/ahaoo:/home/ahaoo -it ubuntu</span><br></pre></td></tr></table></figure><p>通过挂载宿主机docker.sock在容器内启动docker服务，这时挂载的源位置是指宿主机的源位置，并不是第一级容器内的相对位置。</p><h2 id="dind"><a href="#dind" class="headerlink" title="dind"></a>dind</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it $(docker run --privileged -d --name dind-test docker:dind) /bin/sh</span><br><span class="line">docker run -v /home/ahaoo:/home/ahaoo -it ubuntu</span><br></pre></td></tr></table></figure><p>通过使用<code>dind</code>在容器内启动docker服务，挂载的位置则会指向docker内的位置，不会透传到宿主机。</p><h2 id="sysbox"><a href="#sysbox" class="headerlink" title="sysbox"></a>sysbox</h2><p>volume same as dind</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;在容器中运行容器的方式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在容器中挂载宿主机的docker.sock，此举实为在使用宿主机上的docker服务，当在运行的容器中运行第二级的容器并进行位置挂载时，源位置则代指宿主机上的位置，并不能将第一级容器内的位置挂载进第二级容器。&lt;/li&gt;
+&lt;li&gt;使用带有&lt;code&gt;dind&lt;/code&gt;标签的官方docker镜像，这种方法会在docker内部启动一个子服务，当运行挂载时，源位置仍为第一个docker服务的位置。&lt;/li&gt;
+&lt;li&gt;sysbox运行时环境，原理应与2相同。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    
+    <category term="docker" scheme="https://ahaoaha.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>整型和浮点型的二进制存储与计算</title>
+    <link href="https://ahaoaha.github.io/pages/c41bc58f-52dd-4698-be85-c088fd8bf8b0-negate-int-binary"/>
+    <id>https://ahaoaha.github.io/pages/c41bc58f-52dd-4698-be85-c088fd8bf8b0-negate-int-binary</id>
+    <published>2021-11-25T06:19:50.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>计算机存储数字的全部采用补码，计算也使用补码计算，当定义有符号的整型值为0，在计算机内的存储的补码二进制为<code>00000000</code>，进行取反计算后补码结果会变成<code>11111111</code>，进而通过有符号的补码转换为反码是<code>10000000</code>，再+1为<code>10000001</code>，转为十进制的结果就是<code>-1</code>。</p><span id="more"></span><h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p><strong>计算机使用补码对整型进行存储与计算</strong>，正数的反码和补码都是它自己，负数的反码为除了符号位取反，补码为反码减1。</p><h2 id="浮点数型"><a href="#浮点数型" class="headerlink" title="浮点数型"></a>浮点数型</h2><p><strong>计算机对浮点数的存储是通过固定宽度的符号域，指数域和尾数域，任意一个浮点数字可以通过下面的形式表示</strong>：</p><center><strong>$$Value=(-1)^s*M*2^E$$</strong></center><p>其中<code>s</code>为符号位的值，当<code>s==0</code>为正数，<code>s==1</code>为负数，<code>M</code>表示有效数字，即尾数域的值，取值范围为(1,2)，整数部分固定为1，所以整数部分的1被省略，只存储小数部分的值，<code>E</code>表示指数位。</p><p>对于<code>float32</code>而言，<code>s</code>符号位占用1字节，<code>M</code>尾数域占用23字节，<code>E</code>指数域占用8字节。</p><p>对于<code>float64</code>而言，<code>s</code>符号位占用1字节，<code>M</code>尾数域占用52字节，<code>E</code>指数域占用11字节。</p><h3 id="E指数"><a href="#E指数" class="headerlink" title="E指数"></a><code>E</code>指数</h3><p><code>E</code>的类型为无符号的整型数字，对于8位的<code>E</code>，取值范围为[0,255]，对于<code>11</code>位的<code>E</code>，取值范围为[0,2047]，为了能让<code>E</code>表示负数，IEEE 745规定真实的<code>E</code>的值必须减去一个中间数，对于8位这个中间数位<code>127</code>，对于11位这个数字是<code>1024</code>。</p><h3 id="M指数"><a href="#M指数" class="headerlink" title="M指数"></a><code>M</code>指数</h3><p>表示浮点数转换为二进制后，除去首位的1剩余部分的数值。</p><h3 id="规定"><a href="#规定" class="headerlink" title="规定"></a>规定</h3><p>当<code>E</code>的每一位都是0时，真实计算的<code>E&#39;=1-127/1023</code>，并且<code>M</code>中被省略的1降级为0，这样做是为了表示±0以及接近0的很小的数字。</p><p>当<code>E</code>的每一位都是1时，如果<code>M</code>中全都为0，表示±无穷大；如果<code>M</code>不是全部为0，则表示这不是一个数（NaN）。</p><center>$$eg: float32$$</center><center>$$3.25 = 11.01 = 1.101 * 2^1$$</center><center>$$M = 101$$</center><center>$$E = 1+127 = 128 = 10000000$$</center><center>$$S = 0$$</center><center>binary = 0 10000000 1010 0000 000000000000000</center><h3 id="构造正负无穷大"><a href="#构造正负无穷大" class="headerlink" title="构造正负无穷大"></a>构造正负无穷大</h3><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> inf_64_0 <span class="keyword">float64</span> = math.Float64frombits(<span class="number">2047</span> &lt;&lt; <span class="number">52</span>) <span class="comment">// 64位正无穷大</span></span><br><span class="line"><span class="keyword">var</span> inf_64_1 <span class="keyword">float64</span> = math.Float64frombits(<span class="number">4095</span> &lt;&lt; <span class="number">52</span>) <span class="comment">// 64位负无穷大</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> inf_32_0 <span class="keyword">float32</span> = math.Float32frombits(<span class="number">255</span> &lt;&lt; <span class="number">23</span>) <span class="comment">// 32位正无穷大</span></span><br><span class="line"><span class="keyword">var</span> inf_32_1 <span class="keyword">float32</span> = math.Float32frombits(<span class="number">511</span> &lt;&lt; <span class="number">23</span>) <span class="comment">// 32位负无穷大</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;计算机存储数字的全部采用补码，计算也使用补码计算，当定义有符号的整型值为0，在计算机内的存储的补码二进制为&lt;code&gt;00000000&lt;/code&gt;，进行取反计算后补码结果会变成&lt;code&gt;11111111&lt;/code&gt;，进而通过有符号的补码转换为反码是&lt;code&gt;10000000&lt;/code&gt;，再+1为&lt;code&gt;10000001&lt;/code&gt;，转为十进制的结果就是&lt;code&gt;-1&lt;/code&gt;。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="https://ahaoaha.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>记录一个gpg push failed的错误</title>
+    <link href="https://ahaoaha.github.io/pages/70b6eeef-c7e4-4297-9690-52977905ce84-gpg-failed"/>
+    <id>https://ahaoaha.github.io/pages/70b6eeef-c7e4-4297-9690-52977905ce84-gpg-failed</id>
+    <published>2021-11-18T06:31:27.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>在公司的开发机上配置了公司内部的gitlab和我自己的github的gpg钥匙，全局的环境配的是公司的账号，只有我自己项目里面配置自己的账号，配好之后一直存在一个问题，就是通过gpg push公司项目一切正常，在push自己的项目时，会出现<code>error: gpg failed to sign the data</code>这个错误，折腾了好久都没弄好，只好一段时间内放弃了gpg，今天突然发现问题所在，原来在个人项目内，我只配置了git user和email，但是git默认会以gpg的方式提交，所以只好找到了全局的gpg账号，就发现这个gpg账号跟git email是匹配不上的，自然就报错了，当然，解决方法很简单，在自己的项目里面再设置一下user.signingkey就ok了。</p><p>一样的错误出现在我的windows/WSL里，这次的原因是因为二次验证密码窗口无法弹出，所以直接就失败了，网上搜到一个解决方案，设置一个环境变量<code>export GPG_TTY=$(tty)</code>就可以了。</p><span id="more"></span><p><a href="https://networm.me/2017/08/27/signing-git-commit-with-gpg/">相关参考</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;在公司的开发机上配置了公司内部的gitlab和我自己的github的gpg钥匙，全局的环境配的是公司的账号，只有我自己项目里面配置自己的账号，配好之后一直存在一个问题，就是通过gpg push公司项目一切正常，在push自己的项目时，会出现&lt;code&gt;error: gpg failed to sign the data&lt;/code&gt;这个错误，折腾了好久都没弄好，只好一段时间内放弃了gpg，今天突然发现问题所在，原来在个人项目内，我只配置了git user和email，但是git默认会以gpg的方式提交，所以只好找到了全局的gpg账号，就发现这个gpg账号跟git email是匹配不上的，自然就报错了，当然，解决方法很简单，在自己的项目里面再设置一下user.signingkey就ok了。&lt;/p&gt;
+&lt;p&gt;一样的错误出现在我的windows/WSL里，这次的原因是因为二次验证密码窗口无法弹出，所以直接就失败了，网上搜到一个解决方案，设置一个环境变量&lt;code&gt;export GPG_TTY=$(tty)&lt;/code&gt;就可以了。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="https://ahaoaha.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Protoc接口生成器</title>
+    <link href="https://ahaoaha.github.io/pages/6b980338-797b-4da9-a6a9-bd782110e110-proto-build-grpc-http"/>
+    <id>https://ahaoaha.github.io/pages/6b980338-797b-4da9-a6a9-bd782110e110-proto-build-grpc-http</id>
+    <published>2021-11-02T06:51:07.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>通过使用<code>protoc</code>工具及其插件可以通过编写<code>proto</code>文件的方式生成服务提供的接口，可以支持将<code>http</code>请求转发到对应的<code>grpc</code>实现中，并同时提供对入参的格式校验，真方便。</p><span id="more"></span><h2 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h2><div class="table-container"><table><thead><tr><th>插件</th><th>功能</th><th>版本</th><th>备注</th></tr></thead><tbody><tr><td><code>protoc</code></td><td>调用编译程序</td><td><code>v3.17.3</code></td><td></td></tr><tr><td><code>protoc-gen-go</code></td><td>编译message结构体</td><td><code>-</code></td><td></td></tr><tr><td><code>protoc-gen-go-grpc</code></td><td>编译grpc接口</td><td><code>v1.0.1</code></td><td></td></tr><tr><td><code>protoc-gen-grpc-gateway</code></td><td>编程http接口</td><td><code>-</code></td><td></td></tr><tr><td><code>protoc-gen-swagger</code></td><td>生成swagger文档</td><td><code>-</code></td><td></td></tr><tr><td><code>protoc-gen-validate</code></td><td>生成validate格式校验</td><td><code>v0.6.2</code></td><td><a href="https://github.com/envoyproxy/protoc-gen-validate/issues/570">#570</a></td></tr></tbody></table></div><h2 id="sample"><a href="#sample" class="headerlink" title="sample"></a>sample</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">package message;</span><br><span class="line">option go_package = &quot;/;gen&quot;;</span><br><span class="line"></span><br><span class="line">import &quot;google/api/annotations.proto&quot;;</span><br><span class="line"></span><br><span class="line">service Serv &#123;</span><br><span class="line">    rpc SayHelloWorld (request) returns (response) &#123;</span><br><span class="line">        option (google.api.http) = &#123;</span><br><span class="line">            get: &quot;/helloworld&quot;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message request &#123;&#125;</span><br><span class="line"></span><br><span class="line">message response &#123;</span><br><span class="line">    string raw = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h3 id="go-package"><a href="#go-package" class="headerlink" title="go_package"></a><code>go_package</code></h3><p><code>go_package</code>指定生成的go文件的包名，选项的值分为两部分，分号之前表示生成文件的路径，路径的<code>/</code>根目录是指<code>protoc</code>编译时选项<code>--go_out</code>指定的位置，分号之后的第二部分表示生成文件的包名</p><h3 id="package"><a href="#package" class="headerlink" title="package"></a><code>package</code></h3><p><code>package</code>表示当前proto文件的包</p><h3 id="import"><a href="#import" class="headerlink" title="import"></a><code>import</code></h3><p><code>google/api/annotations.proto</code>是编译http接口必须依赖的文件，引用了这个文件直接编译会出现错误，因为<code>protoc</code>找不到这个文件的位置，<code>import</code>的包位置是从根目录开始的文件位置，这里的根目录是指<code>$GOPATH/src</code>所在的路径，解决的方法有两种，可以把文件拷贝到对应位置，也可以用<code>protoc</code>的选项来添加可选根目录的位置，他是一个数组，通过<code>--proto_path</code>可以指定根目录的位置，如果想指定多个位置，用<code>:</code>分隔开就可以了，像<code>PATH</code>一样，这个选项的设置是覆盖的，如果使用，必须指定出所有需要的位置</p><h2 id="build"><a href="#build" class="headerlink" title="build"></a>build</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">PROTO_SRC=./gen.proto</span><br><span class="line"></span><br><span class="line"><span class="section">message:</span></span><br><span class="line">protoc --go_out=. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">grpc:</span></span><br><span class="line">protoc --go-grpc_out=require_unimplemented_servers=false:. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">gateway:</span></span><br><span class="line">protoc --grpc-gateway_out=. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">swagger:</span></span><br><span class="line">protoc --swagger_out=. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">validate:</span></span><br><span class="line">protoc --validate_out=lang=go:<span class="variable">$(OUT_ROOT_PATH)</span> --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: message grpc gateway swagger validate</span></span><br></pre></td></tr></table></figure><h3 id="require-unimplemented-servers-false"><a href="#require-unimplemented-servers-false" class="headerlink" title="require_unimplemented_servers=false"></a><code>require_unimplemented_servers=false</code></h3><p>新版本的<code>protoc-gen-go</code>移除了生成<code>grpc</code>代码的功能，生成<code>grpc</code>功能独立成为一个工具<code>protoc-gen-go-grpc</code>,在<code>v1.0.0</code>和<code>v1.1.0</code>上通过默认方式产生的<code>grpc</code>代码都会包含一个无法实现的接口<code>mustEmbedUnimplementedServServer</code>，通过<code>require_unimplemented_servers=false</code>可以阻止生成这个接口，<a href="https://pkg.go.dev/google.golang.org/grpc/cmd/protoc-gen-go-grpc#section-readme">原因得看这里</a></p><p><strong><a href="https://github.com/AHAOAHA/Demo/tree/master/golang/proto">demo_code</a></strong></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;通过使用&lt;code&gt;protoc&lt;/code&gt;工具及其插件可以通过编写&lt;code&gt;proto&lt;/code&gt;文件的方式生成服务提供的接口，可以支持将&lt;code&gt;http&lt;/code&gt;请求转发到对应的&lt;code&gt;grpc&lt;/code&gt;实现中，并同时提供对入参的格式校验，真方便。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="工具" scheme="https://ahaoaha.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>proto marshal 结果可能是不一致的</title>
+    <link href="https://ahaoaha.github.io/pages/ffddbe7d-b01f-4e93-ad88-134a41e34d7a-proto-marshal-not-same"/>
+    <id>https://ahaoaha.github.io/pages/ffddbe7d-b01f-4e93-ad88-134a41e34d7a-proto-marshal-not-same</id>
+    <published>2021-10-28T06:54:19.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天发现<code>google.protobuf.Struct</code>类型的数据用<code>proto</code>反序列化同一个对象产生的二进制数据顺序可能是不同的，但使用<code>json</code>或者<code>jsonpb</code>是不会出现这样的问题的。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;今天发现&lt;code&gt;google.protobuf.Struct&lt;/code&gt;类型的数据用&lt;code&gt;proto&lt;/code&gt;反序列化同一个对象产生的二进制数据顺序可能是不同的，但使用&lt;code&gt;json&lt;/code&gt;或者&lt;code&gt;jsonpb&lt;/code&gt;是不会出现这样</summary>
+      
+    
+    
+    
+    
+    <category term="序列化" scheme="https://ahaoaha.github.io/tags/%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Golang Tips</title>
+    <link href="https://ahaoaha.github.io/pages/fd738c75-2182-4468-9c2f-88a3645baf2d-go-tips"/>
+    <id>https://ahaoaha.github.io/pages/fd738c75-2182-4468-9c2f-88a3645baf2d-go-tips</id>
+    <published>2021-10-12T09:07:18.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/beijing-yonghegong-wanshang.jpg" width="60%" height="60%"></img></p><center>北京夜晚的雍和宫<br/>photo by <a href="mailto:irishong_@outlook.com">@iris</a></center><span id="more"></span><h2 id="结构体嵌套"><a href="#结构体嵌套" class="headerlink" title="结构体嵌套"></a>结构体嵌套</h2><p>今天发现，结构体嵌套，不需要另外指定名称，直接使用嵌套的结构体名就行，写两个例子记录一下</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> SubSt <span class="keyword">struct</span> &#123;</span><br><span class="line">    subx <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> St <span class="keyword">struct</span> &#123;</span><br><span class="line">    SubSt</span><br><span class="line">    x <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := St&#123;&#125;</span><br><span class="line">    x.SubSt.subx = <span class="number">0</span> <span class="comment">// 这样就可以访问</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>不在同一个包的嵌套也可以这样使用，访问时不需要加包名，直接通过类型名访问，类型可以为值或者指针，值和指针的访问方式是一样的</p><p><strong>当然这样也有缺点，就是嵌套的结构体内，相同的类型只能嵌套一次，而且就算是不同包的子类型，名称也不能一致</strong></p><h2 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h2><h3 id="平台区分"><a href="#平台区分" class="headerlink" title="平台区分"></a>平台区分</h3><p>源文件<code>xxx_$(GOOS)_$(GOARCH).go</code>仅会在<code>go build GOARCH=$(GOARCH) GOOS=$(GOOS) .</code>时被编译</p><p>源文件<code>xxx_$(GOOS).go</code>会在<code>go build GOOS=$(GOOS) .</code>时被编译，这时<code>GOARCH</code>无论是什么都不会造成影响</p><p>源文件<code>xxx_$(GOARCH).go</code>会在<code>go build GOARCH=$(GOARCH) .</code>时被编译，这是无论<code>GOOS</code>是什么都不影响</p><h3 id="自定义区分"><a href="#自定义区分" class="headerlink" title="自定义区分"></a>自定义区分</h3><p>通过build tag进行条件编译，在文件的第一行，必须是第一行，添加<code>//+build $tag</code>，然后在编译的时候添加<code>go build -tags=$tag</code>来编译，这样就只会把头部包含<code>//+build $tag</code>的源文件编译进去。</p><p>当平台区分和自定义区分同时存在，优先进行平台区分</p><h2 id="多层跳转"><a href="#多层跳转" class="headerlink" title="多层跳转"></a>多层跳转</h2><p>对for循环设置<code>label</code>，当循环嵌套了多层，需要从最里面的循环跳到最外面或者跳转到指定的某一层循环，可以通过<code>break</code>/<code>continue</code>+<code>label</code>的方式跳转。用来控制循环跳转的<code>label</code>只能标记循环，而<code>break</code>和<code>continue</code>之后的<code>label</code>只能为标记循环的<code>label</code>。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testbk</span><span class="params">()</span></span> &#123;</span><br><span class="line">first:</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> &#123;</span><br><span class="line">            <span class="keyword">break</span> first</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;first inside&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;first outside&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    testbk();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/images/beijing-yonghegong-wanshang.jpg&quot; width=&quot;60%&quot; height=&quot;60%&quot;&gt;&lt;/img&gt;&lt;/p&gt;
+&lt;center&gt;北京夜晚的雍和宫&lt;br/&gt;photo by &lt;a href=&quot;mailto:irishong_@outlook.com&quot;&gt;@iris&lt;/a&gt;&lt;/center&gt;</summary>
+    
+    
+    
+    
+    <category term="golang" scheme="https://ahaoaha.github.io/tags/golang/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>容器桥接网络造成ip冲突</title>
+    <link href="https://ahaoaha.github.io/pages/bad42e12-e2b9-44b8-b192-58c47b79a95e-docker-bridge-net"/>
+    <id>https://ahaoaha.github.io/pages/bad42e12-e2b9-44b8-b192-58c47b79a95e-docker-bridge-net</id>
+    <published>2021-10-12T06:29:51.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天访问一个内网网站持续连接不上，ping也ping不通，换了台机器没出现相同问题，检查了DNS和host配置都没有特殊处理，dig查了一下目标ip地址为172.20.153.43，发现有一个docker创建的虚拟网口为172.20.0.1/16，目标地址的IP落入了虚拟网口的子网中，当然找不到对应的资源了。</p><span id="more"></span><h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><p>删除所有容器创建的桥接网络虚拟网口<code>docker network rm $(docker network ls -q)</code>，有三个默认的不能删除</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;今天访问一个内网网站持续连接不上，ping也ping不通，换了台机器没出现相同问题，检查了DNS和host配置都没有特殊处理，dig查了一下目标ip地址为172.20.153.43，发现有一个docker创建的虚拟网口为172.20.0.1/16，目标地址的IP落入了虚拟网口的子网中，当然找不到对应的资源了。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="docker" scheme="https://ahaoaha.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go调C调Go</title>
+    <link href="https://ahaoaha.github.io/pages/e5deb14e-9d99-4709-b762-81a12c743a2c-gocgo"/>
+    <id>https://ahaoaha.github.io/pages/e5deb14e-9d99-4709-b762-81a12c743a2c-gocgo</id>
+    <published>2021-09-10T10:15:56.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/wuhan-huanghelou.jpg" width="60%" height="60%"></img></p><center>武汉傍晚的黄鹤楼<br/>photo by <a href="mailto:irishong_@outlook.com">@iris</a></center><span id="more"></span><h2 id="Go调C"><a href="#Go调C" class="headerlink" title="Go调C"></a>Go调C</h2><p><code>import &quot;C&quot;</code>之前的注释即为要调用的C语言源码，中间不能有空行或者其他内容。</p><h3 id="用源码"><a href="#用源码" class="headerlink" title="用源码"></a>用源码</h3><h4 id="C源码在Go文件中"><a href="#C源码在Go文件中" class="headerlink" title="C源码在Go文件中"></a>C源码在Go文件中</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">void hello_world_inside() &#123;</span></span><br><span class="line"><span class="comment">printf(&quot;hello world inside!\n&quot;);</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    C.hello_world_inside()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="C源码在Go文件外"><a href="#C源码在Go文件外" class="headerlink" title="C源码在Go文件外"></a>C源码在Go文件外</h4><p>当c代码头文件和源码分离时，<del>需要注意这种方法不能在main包中使用，只能用于除main包之外的包。</del>，之前不行是因为编译的时候只编译了<code>main.go</code>，没有编译c代码所以会产生链接错误，以包的方式编译就可以了。</p><p><a href="https://github.com/AHAOAHA/Demo/tree/master/golang/cgo/cgo-1">sample</a></p><h3 id="用库"><a href="#用库" class="headerlink" title="用库"></a>用库</h3><p>需要确保代码可找到库的位置，若不在系统的链接位置，需要用-L指明。</p><blockquote><p>这里可以用<code>$&#123;SRCDIR&#125;</code>表示当前go文件所在的位置</p></blockquote><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#cgo CFLAGS: -I $&#123;SRCDIR&#125; -std=c99</span></span><br><span class="line"><span class="comment">#cgo LDFLAGS: -L $&#123;SRCDIR&#125; -lhelloworld</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#include &quot;hello-world-lib.h&quot;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    C.hello_world_lib()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h2 id="C函数调用Go代码"><a href="#C函数调用Go代码" class="headerlink" title="C函数调用Go代码"></a>C函数调用Go代码</h2><h3 id="Go生成动-静态库"><a href="#Go生成动-静态库" class="headerlink" title="Go生成动/静态库"></a>Go生成动/静态库</h3><p>这种方法指的是通过go代码生成静态或动态库来给c代码调用。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">//extern void hello_world_in_go();</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//export hello_world_in_go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello_world_in_go</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;hello world in go!\n&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// go build -buildmode=c-archive -o helloworld.a main.go 生成静态库和头文件</span></span><br><span class="line"><span class="comment">/// go build -buildmode=c-shared -o helloworld.so main.go 生成动态库和头文件</span></span><br></pre></td></tr></table></figure><ul><li><strong><code>-buildmode=c-archive</code>生成静态库</strong></li><li><strong><code>-buildmode=c-shared</code>生成动态库</strong></li><li><strong><code>package main</code>和<code>main</code>函数是必须的</strong></li></ul><h3 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h3><p>在C中声明一个回调函数，通过export在go代码中实现c代码中的声明的函数。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">//extern void hello_world_in_go();</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//export hello_world_in_go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello_world_in_go</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;hello world in go!\n&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    C.hello_world_in_go()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h2><p>主要的方法就是在Go中定义一个内存占用与C语言中一致的结构体，然后将地址强制转换为C代码中的地址。</p><h3 id="传入传出函数"><a href="#传入传出函数" class="headerlink" title="传入传出函数"></a>传入传出函数</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">struct Bus &#123;</span></span><br><span class="line"><span class="comment">    int x;</span></span><br><span class="line"><span class="comment">    int y;</span></span><br><span class="line"><span class="comment">    int sum;</span></span><br><span class="line"><span class="comment">&#125;;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">void add(struct Bus* ps) &#123;</span></span><br><span class="line"><span class="comment">    ps-&gt;sum = ps-&gt;x + ps-&gt;y;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line"><span class="string">&quot;fmt&quot;</span></span><br><span class="line"><span class="string">&quot;unsafe&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Bus <span class="keyword">struct</span> &#123;</span><br><span class="line">x   <span class="keyword">int32</span></span><br><span class="line">y   <span class="keyword">int32</span></span><br><span class="line">sum <span class="keyword">int32</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">b := &amp;Bus&#123;</span><br><span class="line">x: <span class="number">1</span>,</span><br><span class="line">y: <span class="number">1</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> pb *C.struct_Bus = (*C.struct_Bus)(unsafe.Pointer(b))</span><br><span class="line">C.add(pb)</span><br><span class="line">fmt.Printf(<span class="string">&quot;Bus.sum: %d\n&quot;</span>, b.sum)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样做也是可以的，关键的问题就在于确定C中结构体对应的大小，这里的<code>int</code>在32位或64位的平台下编译都是4个字节的，不知道为啥曾经听说会随着平台改变，查了下，会改变的是<code>short int</code>，32位2字节64位4字节，golang默认编译的是64位，通过<code>GOGCCFLAGS</code>这个环境变量就能查到其中<code>-m64</code>就代表的是64位平台。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/images/wuhan-huanghelou.jpg&quot; width=&quot;60%&quot; height=&quot;60%&quot;&gt;&lt;/img&gt;&lt;/p&gt;
+&lt;center&gt;武汉傍晚的黄鹤楼&lt;br/&gt;photo by &lt;a href=&quot;mailto:irishong_@outlook.com&quot;&gt;@iris&lt;/a&gt;&lt;/center&gt;</summary>
+    
+    
+    
+    
+    <category term="golang" scheme="https://ahaoaha.github.io/tags/golang/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>bash -c的第一个参数不是第一个参数</title>
+    <link href="https://ahaoaha.github.io/pages/6d9a55db-a700-414e-b8f4-338772d529db"/>
+    <id>https://ahaoaha.github.io/pages/6d9a55db-a700-414e-b8f4-338772d529db</id>
+    <published>2021-08-26T09:08:19.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/qingdao-dahai-fanchaun.jpg" width="60%" height="60%"></img></p><center>青岛大海上的帆船<br/>photo by <a href="mailto:irishong_@outlook.com">@iris</a></center><span id="more"></span><p>执行远程脚本的时候，脚本需要传入参数，但是在使用bash -c时，后面的参数是依次从$0开始的，也就是说本来应该是$1的参数现在变成了$0，我感觉这是因为bash -c的命令不是来自具体的文件，所以传统的$0脚本文件位置会空出来，这个时候的参数就会依次补上来，用一个参数把$0这个位置占掉就ok了。</p><p>举个例子吧<br><code>bash -c &#39;ls $@&#39; -a</code>这样，<code>-a</code>其实是作为<code>$0</code>传递进去的，<code>bash -c &#39;ls $@&#39; x -a</code>这样才是正确的！</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/images/qingdao-dahai-fanchaun.jpg&quot; width=&quot;60%&quot; height=&quot;60%&quot;&gt;&lt;/img&gt;&lt;/p&gt;
+&lt;center&gt;青岛大海上的帆船&lt;br/&gt;photo by &lt;a href=&quot;mailto:irishong_@outlook.com&quot;&gt;@iris&lt;/a&gt;&lt;/center&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="https://ahaoaha.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在写lua的时候遇到了一些问题</title>
+    <link href="https://ahaoaha.github.io/pages/ba915f98-0481-41c6-8b12-35ca406d5103"/>
+    <id>https://ahaoaha.github.io/pages/ba915f98-0481-41c6-8b12-35ca406d5103</id>
+    <published>2021-08-04T09:20:58.000Z</published>
+    <updated>2022-06-28T12:29:45.460Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/qingdao-dahai-jiaoshi.jpg" width="60%" height="60%"></img></p><center>青岛大海旁边的石头<br/>photo by <a href="mailto:irishong_@outlook.com">@iris</a></center><span id="more"></span><h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><p>以脚本语言的角度看lua，每个文件末尾返回本包的主体，这样当前包才能被其他文件引用，在是用中发现，如果不指定返回值，默认返回值是一个bool类型的值</p><h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>ipairs仅遍历数组（key为数字），遇到值为nil或者遇到不连续的索引时就停止遍历并退出，这里值为nil就可以理解为不连续的索引，值为nil的元素，认为是不存在的元素，ipairs不会遍历key值为0的元素</p><p>pairs遍历集合所有元素，包括key和value，即pairs可以遍历数组中所有的元素，当数组中某一个元素的key不为nil但是value为nil时，pairs会跳过这个元素继续遍历下一个元素。</p><p>lua是以1为索引的起始位置</p><h3 id="赋值和拷贝"><a href="#赋值和拷贝" class="headerlink" title="赋值和拷贝"></a>赋值和拷贝</h3><p>lua中table类型的赋值与拷贝都是在传递引用值</p><p>发现一个大问题<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> m = &#123;&#125;</span><br><span class="line">m[<span class="number">1</span>] = &#123;value = <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">local</span> ref = m[<span class="number">1</span>]</span><br><span class="line">ref.value = <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> ref.value ~= m[<span class="number">1</span>].value <span class="keyword">then</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;没引用传递阿&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">ref = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">if</span> ref ~= m[<span class="number">1</span>] <span class="keyword">then</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;赋值为nil确实不传递阿&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><br>赋值为nil的操作不能理解为赋值，应当理解为对变量对应的值消除引用吧，强行理解吧，range里的应该也是一样</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/images/qingdao-dahai-jiaoshi.jpg&quot; width=&quot;60%&quot; height=&quot;60%&quot;&gt;&lt;/img&gt;&lt;/p&gt;
+&lt;center&gt;青岛大海旁边的石头&lt;br/&gt;photo by &lt;a href=&quot;mailto:irishong_@outlook.com&quot;&gt;@iris&lt;/a&gt;&lt;/center&gt;</summary>
+    
+    
+    
+    
+    <category term="lua" scheme="https://ahaoaha.github.io/tags/lua/"/>
+    
+  </entry>
+  
+</feed>

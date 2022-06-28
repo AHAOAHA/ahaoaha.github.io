@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/daxiong-128x128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/daxiong-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/daxiong-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="hi1jnHKPFug2Q47Hj-fIvgiz6QAGyCmMzC9OZoF4RnQ">
+  <meta name="msvalidate.01" content="45D4749CFBEA75021135B282E90258FE">
+  <meta name="baidu-site-verification" content="code-JH9lVVEEf7">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ahaoaha.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="通过使用protoc工具及其插件可以通过编写proto文件的方式生成服务提供的接口，可以支持将http请求转发到对应的grpc实现中，并同时提供对入参的格式校验，真方便。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Protoc接口生成器">
+<meta property="og:url" content="https://ahaoaha.github.io/pages/6b980338-797b-4da9-a6a9-bd782110e110-proto-build-grpc-http">
+<meta property="og:site_name" content="ahaoahaz">
+<meta property="og:description" content="通过使用protoc工具及其插件可以通过编写proto文件的方式生成服务提供的接口，可以支持将http请求转发到对应的grpc实现中，并同时提供对入参的格式校验，真方便。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-02T06:51:07.000Z">
+<meta property="article:modified_time" content="2022-06-28T12:29:45.460Z">
+<meta property="article:author" content="ahaoaha">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ahaoaha.github.io/pages/6b980338-797b-4da9-a6a9-bd782110e110-proto-build-grpc-http.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Protoc接口生成器 | ahaoahaz</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="ahaoahaz" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ahaoahaz</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/AHAOAHA" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ahaoaha.github.io/pages/6b980338-797b-4da9-a6a9-bd782110e110-proto-build-grpc-http">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/ahaoo_avatar.jpg">
+      <meta itemprop="name" content="ahaoaha">
+      <meta itemprop="description" content="谁开发 谁保护 谁污染 谁治理">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ahaoahaz">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Protoc接口生成器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-02 14:51:07" itemprop="dateCreated datePublished" datetime="2021-11-02T14:51:07+08:00">2021-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-28 20:29:45" itemprop="dateModified" datetime="2022-06-28T20:29:45+08:00">2022-06-28</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>通过使用<code>protoc</code>工具及其插件可以通过编写<code>proto</code>文件的方式生成服务提供的接口，可以支持将<code>http</code>请求转发到对应的<code>grpc</code>实现中，并同时提供对入参的格式校验，真方便。</p>
+<span id="more"></span>
+<h2 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>插件</th>
+<th>功能</th>
+<th>版本</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>protoc</code></td>
+<td>调用编译程序</td>
+<td><code>v3.17.3</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>protoc-gen-go</code></td>
+<td>编译message结构体</td>
+<td><code>-</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>protoc-gen-go-grpc</code></td>
+<td>编译grpc接口</td>
+<td><code>v1.0.1</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>protoc-gen-grpc-gateway</code></td>
+<td>编程http接口</td>
+<td><code>-</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>protoc-gen-swagger</code></td>
+<td>生成swagger文档</td>
+<td><code>-</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>protoc-gen-validate</code></td>
+<td>生成validate格式校验</td>
+<td><code>v0.6.2</code></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/envoyproxy/protoc-gen-validate/issues/570">#570</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="sample"><a href="#sample" class="headerlink" title="sample"></a>sample</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">package message;</span><br><span class="line">option go_package = &quot;/;gen&quot;;</span><br><span class="line"></span><br><span class="line">import &quot;google/api/annotations.proto&quot;;</span><br><span class="line"></span><br><span class="line">service Serv &#123;</span><br><span class="line">    rpc SayHelloWorld (request) returns (response) &#123;</span><br><span class="line">        option (google.api.http) = &#123;</span><br><span class="line">            get: &quot;/helloworld&quot;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message request &#123;&#125;</span><br><span class="line"></span><br><span class="line">message response &#123;</span><br><span class="line">    string raw = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="go-package"><a href="#go-package" class="headerlink" title="go_package"></a><code>go_package</code></h3><p><code>go_package</code>指定生成的go文件的包名，选项的值分为两部分，分号之前表示生成文件的路径，路径的<code>/</code>根目录是指<code>protoc</code>编译时选项<code>--go_out</code>指定的位置，分号之后的第二部分表示生成文件的包名</p>
+<h3 id="package"><a href="#package" class="headerlink" title="package"></a><code>package</code></h3><p><code>package</code>表示当前proto文件的包</p>
+<h3 id="import"><a href="#import" class="headerlink" title="import"></a><code>import</code></h3><p><code>google/api/annotations.proto</code>是编译http接口必须依赖的文件，引用了这个文件直接编译会出现错误，因为<code>protoc</code>找不到这个文件的位置，<code>import</code>的包位置是从根目录开始的文件位置，这里的根目录是指<code>$GOPATH/src</code>所在的路径，解决的方法有两种，可以把文件拷贝到对应位置，也可以用<code>protoc</code>的选项来添加可选根目录的位置，他是一个数组，通过<code>--proto_path</code>可以指定根目录的位置，如果想指定多个位置，用<code>:</code>分隔开就可以了，像<code>PATH</code>一样，这个选项的设置是覆盖的，如果使用，必须指定出所有需要的位置</p>
+<h2 id="build"><a href="#build" class="headerlink" title="build"></a>build</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">PROTO_SRC=./gen.proto</span><br><span class="line"></span><br><span class="line"><span class="section">message:</span></span><br><span class="line">	protoc --go_out=. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">grpc:</span></span><br><span class="line">	protoc --go-grpc_out=require_unimplemented_servers=false:. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">gateway:</span></span><br><span class="line">	protoc --grpc-gateway_out=. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">swagger:</span></span><br><span class="line">	protoc --swagger_out=. --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="section">validate:</span></span><br><span class="line">	protoc --validate_out=lang=go:<span class="variable">$(OUT_ROOT_PATH)</span> --proto_path=.:$$GOPATH/src:$$GOPATH/src/github.com/googleapis/googleapis <span class="variable">$(PROTO_SRC)</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: message grpc gateway swagger validate</span></span><br></pre></td></tr></table></figure>
+<h3 id="require-unimplemented-servers-false"><a href="#require-unimplemented-servers-false" class="headerlink" title="require_unimplemented_servers=false"></a><code>require_unimplemented_servers=false</code></h3><p>新版本的<code>protoc-gen-go</code>移除了生成<code>grpc</code>代码的功能，生成<code>grpc</code>功能独立成为一个工具<code>protoc-gen-go-grpc</code>,在<code>v1.0.0</code>和<code>v1.1.0</code>上通过默认方式产生的<code>grpc</code>代码都会包含一个无法实现的接口<code>mustEmbedUnimplementedServServer</code>，通过<code>require_unimplemented_servers=false</code>可以阻止生成这个接口，<a target="_blank" rel="noopener" href="https://pkg.go.dev/google.golang.org/grpc/cmd/protoc-gen-go-grpc#section-readme">原因得看这里</a></p>
+<p><strong><a target="_blank" rel="noopener" href="https://github.com/AHAOAHA/Demo/tree/master/golang/proto">demo_code</a></strong></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>ahaoaha
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://ahaoaha.github.io/pages/6b980338-797b-4da9-a6a9-bd782110e110-proto-build-grpc-http" title="Protoc接口生成器">https://ahaoaha.github.io/pages/6b980338-797b-4da9-a6a9-bd782110e110-proto-build-grpc-http</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/ahaoaha">
+            <span class="icon">
+              <i class="fab fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/pages/ffddbe7d-b01f-4e93-ad88-134a41e34d7a-proto-marshal-not-same" rel="prev" title="proto marshal 结果可能是不一致的">
+      <i class="fa fa-chevron-left"></i> proto marshal 结果可能是不一致的
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/pages/70b6eeef-c7e4-4297-9690-52977905ce84-gpg-failed" rel="next" title="记录一个gpg push failed的错误">
+      记录一个gpg push failed的错误 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <!-- Begin Insert clustrmaps.com -->
+      <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=a&t=n&d=qpUtvBmDZGsyPAO9MJ2bLU-0d5vnuLpp3ZrQrXH9H7k&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
+      <!-- End Insert clustrmaps.com -->
+      <br/>
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#plugins"><span class="nav-number">1.</span> <span class="nav-text">plugins</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sample"><span class="nav-number">2.</span> <span class="nav-text">sample</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#go-package"><span class="nav-number">2.1.</span> <span class="nav-text">go_package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#package"><span class="nav-number">2.2.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import"><span class="nav-number">2.3.</span> <span class="nav-text">import</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build"><span class="nav-number">3.</span> <span class="nav-text">build</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#require-unimplemented-servers-false"><span class="nav-number">3.1.</span> <span class="nav-text">require_unimplemented_servers&#x3D;false</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ahaoaha"
+      src="/images/ahaoo_avatar.jpg">
+  <p class="site-author-name" itemprop="name">ahaoaha</p>
+  <div class="site-description" itemprop="description">谁开发 谁保护 谁污染 谁治理</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element">
+    <a onclick="tidioChatApi.open();"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AHAOAHA" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AHAOAHA" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ahaoaha_@outlook.com" title="E-Mail → mailto:ahaoaha_@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/ahaoaha" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;ahaoaha" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">All rights reserved.</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="//code.tidio.co/jvtqxs0ulqtdlxfc3qdq5ftz6cwoh2ye.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ecf5f62701c7fad88e50',
+      clientSecret: 'bbadfcfb2eb478009a4e3df4bc2915d0a8a75522',
+      repo        : 'ahaoaha.github.io',
+      owner       : 'AHAOAHA',
+      admin       : ['AHAOAHA'],
+      id          : '7d628a856d5997effcd3566dc200b28d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
